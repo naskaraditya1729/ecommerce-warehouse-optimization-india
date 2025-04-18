@@ -4,8 +4,9 @@
 To determine optimal locations for warehouses across India that minimize delivery costs and time to major cities, while respecting budget and time constraints. This is a statistical optimization project using convex methods.
 
 ## 👥 Team Members
-- Aditya Naskar (Team Leader)
-- [Add your teammates' names here]
+- Aditya Naskar 
+- Sujit Kumar Nayak
+- Komineni Dhanunjaya Naidu
 
 ## 🧪 Tools & Technologies
 - R (with Quarto for report)
