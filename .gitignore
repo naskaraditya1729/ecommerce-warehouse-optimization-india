@@ -1,1 +1,38 @@
+# R specific
+.Rhistory
+.RData
+.Ruserdata
+.Rapp.history
+.Rproj.user/
+*.Rproj
+.Rcheck/
+
+# Quarto
+*.qmd~
+.quarto/
+_site/
+*.docx
+*.pdf
+
+# VS Code or RStudio
+.vscode/
+.RData
+.Rhistory
+.Rproj.user/
+*.Rproj
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Data files (optional, especially if large or confidential)
+data/*.csv
+data/*.xlsx
+data/*.zip
+data/*.json
+
+# Quarto or R markdown cache
+_cache/
+*.utf8.md
+*.knit.md
  
