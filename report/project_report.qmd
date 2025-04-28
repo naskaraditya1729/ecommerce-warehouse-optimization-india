@@ -1,1 +1,26 @@
+---
+title: "project_report"
+format: html
+editor: visual
+---
+
+# Problem
+
+## Warehouse Location Problem - Basic Formulation
+
+set I; \# Potential warehouse locations set J; \# Demand points/cities param d{I,J}; \# Distance/delivery cost from i to j param h{J}; \# Demand at city j param f{I}; \# Fixed cost of opening warehouse at i param B; \# Budget limit param T_max; \# Maximum delivery time param t{I,J}; \# Delivery time from i to j param c{i in I, j in J} := d\[i,j\] \* h\[j\]; \# Cost of serving all demand at j from i var x{I} binary; \# 1 if warehouse opened at i var y{I,J} \>= 0; \# Fraction of demand at j served by i
+
+### Objective: Minimize total cost
+
+minimize Total_Cost: sum{i in I} f\[i\] \* x\[i\] + sum{i in I, j in J} c\[i,j\] \* y\[i,j\];
+
+### Constraints
+
+subject to Demand_Satisfaction{j in J}: sum{i in I} y\[i,j\] = 1;
+
+subject to Open_Warehouse{i in I, j in J}: y\[i,j\] \<= x\[i\];
+
+subject to Budget_Limit: sum{i in I} f\[i\] \* x\[i\] \<= B;
+
+subject to Delivery_Time_Limit{j in J}: sum{i in I} t\[i,j\] \* y\[i,j\] \<= T_max;
  
