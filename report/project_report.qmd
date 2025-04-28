@@ -3,19 +3,23 @@ title: "project_report"
 format: html
 editor: visual
 output:
-  latex: 
+  latex:
     pdf-engine: pdflatex
+    documentclass: article
+    fontsize: 12pt
+  html:
+    css-styles: "body { font-size: 12pt; }"
 ---
 
 # Problem
 
 India’s booming e-commerce sector demands faster and cheaper delivery to meet customer expectations. Companies require smart warehouse placement strategies to balance delivery speed and cost while staying within operational budgets.
 
-### The Research Problem (RP):
+##### The Research Problem (RP):
 
 Inefficient placement of warehouses can result in increased costs, longer delivery times, and decreased customer satisfaction. Thus, there is a critical need to develop an optimization model that can help in deciding where to locate warehouses to best serve major cities across India.
 
-### The Research Question (RQ):
+##### The Research Question (RQ):
 
 How can we determine the optimal warehouse locations across India to minimize the total delivery cost and time, under given constraints of budget and maximum delivery time?
 
@@ -36,7 +40,7 @@ How can we determine the optimal warehouse locations across India to minimize th
 
 ### Objective: Minimize delivery cost
 
-Minimize : $$ Z=\sum_{i \in I} f_i \cdot x_i + \sum_{i \in I, j \in J} c_{i,j}h_{i}y_{i,j} $$
+Minimize : $$ Z=\sum_{i \in I} f_i \cdot x_i + \sum_{i \in I, j \in J} c_{i,j}h_{j}y_{i,j} $$
 
 ### Constraints
 
