@@ -11,13 +11,10 @@ output:
 
 ## Warehouse Location Problem - Basic Formulation
 
-### Sets
+### Let's define:
 
 -   $I=$ Set of potential warehouse locations
 -   $J=$ Set of demand points/cities
-
-### Parameters
-
 -   $d_{i,j}=$ Distance/delivery cost from $i$ to $j$
 -   $h_j=$ Demand at city $j$
 -   $f_i=$ Fixed cost of opening a warehouse at $i$
