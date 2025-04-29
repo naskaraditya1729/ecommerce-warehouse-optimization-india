@@ -35,8 +35,9 @@ How can we determine the optimal warehouse locations across India to minimize th
 -   $h_j=$ Demand at city $j$
 -   $f_i=$ Fixed cost of opening a warehouse at $i$
 -   $c_{i,j}=$ cost of serving all demand at city $j$ from warehouse $i$.
--   $x_i$ binary; $x_i \in \{0,1\}$ (1 if warehouse is opened at $i$, 0 otherwise)
+-   $x_i$ ; $x_i \in \{0,1\}$ (1 if warehouse is opened at $i$, 0 otherwise)
 -   $y_{i,j}=$ fraction of demand at $j$ served by warehouse $i$.
+-   $t_{i, j}=$ time required for delivering from warehouse at i to city at j.
 
 ### Objective: Minimize delivery cost
 
