@@ -11,19 +11,109 @@ output:
     css-styles: "body { font-size: 12pt; }"
 ---
 
-# Problem
+# 1. Problem
 
-India’s booming e-commerce sector demands faster and cheaper delivery to meet customer expectations. Companies require smart warehouse placement strategies to balance delivery speed and cost while staying within operational budgets.
+India's booming e-commerce sector demands faster and cheaper delivery to meet customer expectations. Companies require smart warehouse placement strategies to balance delivery speed and cost while staying within operational budgets.
 
-##### The Research Problem (RP):
+#### The Research Problem (RP):
 
 Inefficient placement of warehouses can result in increased costs, longer delivery times, and decreased customer satisfaction. Thus, there is a critical need to develop an optimization model that can help in deciding where to locate warehouses to best serve major cities across India.
 
-##### The Research Question (RQ):
+#### The Research Question (RQ):
 
 How can we determine the optimal warehouse locations across India to minimize the total delivery cost and time, under given constraints of budget and maximum delivery time?
 
-# Analysis
+# 3. Data
+
+This section outlines the datasets used in the project, the data preparation techniques applied, and the assumptions made to support the optimization model for warehouse location planning.
+
+### 3.1 Source Datasets
+
+#### 3.1.1 Pincode-Level Geographic Dataset
+
+This dataset provides geospatial and administrative data at the pincode level for locations across India. Each entry includes a pincode identifier, the corresponding administrative district, and the geographic coordinates (latitude and longitude). It enables spatial modeling of delivery logistics and helps in associating demand with physical regions on the map.
+
+#### 3.1.2 Amazon E-Commerce Sales Dataset
+
+The second dataset comprises order-level transactional data from Amazon India. For each order, key variables include the shipping pincode and the number of items sold. These quantity values were used as a proxy for estimating regional e-commerce demand. While the dataset does not include geospatial coordinates, these were integrated by linking the shipping pincode with the pincode-location dataset.
+
+------------------------------------------------------------------------
+
+### 3.2 Data Preparation and Integration
+
+To prepare the data for modeling, the following preprocessing steps were undertaken:
+
+-   **Demand Aggregation:** The sales data was grouped by shipping pincode, and the quantity values were summed to estimate total demand per location.
+-   **Merging Spatial Data:** The aggregated demand values were joined with the geographic dataset using pincode as a key, enriching each record with district and location coordinates.
+-   **Data Cleaning:** Records with missing or invalid demand or coordinate values were removed to ensure consistency and model readiness.
+
+The resulting dataset includes pincode-level demand points, each tagged with a district and corresponding latitude and longitude. This serves as the demand input to the optimization model and is referred to as the *demand points dataset*.
+
+------------------------------------------------------------------------
+
+### 3.3 District-Level Aggregation for Warehouse Candidates
+
+To determine suitable warehouse locations, it was assumed that warehouses are to be built only in high-demand regions. Therefore, the demand data was aggregated at the district level:
+
+-   Total demand was computed by summing demand across all pincodes within each district.
+-   The centroid of each district was estimated using the average latitude and longitude of its constituent pincodes.
+
+Districts were then ranked based on total demand, and the top 20 districts were selected as potential warehouse hub locations. These form the *candidate warehouse locations dataset*.
+
+------------------------------------------------------------------------
+
+### 3.4 Distance Matrix Generation Using Haversine Formula
+
+To evaluate delivery cost and time between each demand point and each warehouse candidate, we computed pairwise geographic distances using the Haversine formula:
+
+$$
+Distance_{i,j} = R \cdot 2 \cdot \arctan 2 \left( \sqrt{a}, \sqrt{1 - a} \right)
+$$
+
+where
+
+$$
+a = \sin^2 \left( \frac{\Delta \phi}{2} \right) + \cos(\phi_1) \cdot \cos(\phi_2) \cdot \sin^2 \left( \frac{\Delta \lambda}{2} \right)
+$$
+
+-   $\phi =$ latitude in radians\
+
+-   $\lambda =$ longitude in radians\
+
+-   $R =$ radius of Earth ($\approx 6371 \, \text{km}$)
+
+Using this formula:
+
+-   Each row in the matrix represents a demand point
+
+-   Each column corresponds to a warehouse candidate
+
+-   Each cell gives the straight-line distance (in km) between the two
+
+The calculation was implemented in R using a row-wise distance function. The result was saved as Distance_Matrix.csv.
+
+### 3.5 Final Prepared Datasets
+
+The preprocessing steps produced the following three datasets, each saved in CSV format:
+
+-   **Demand Points Dataset (`Demand_points.csv`)**: Contains pincode-level demand estimates and geospatial locations.
+-   **Warehouse Candidates Dataset (`Warehouse_points.csv`)**: Includes the top 20 demand-heavy districts considered for warehouse siting, along with centroid coordinates.
+-   **Distance Matrix (`Distance_Matrix.csv`)**: A matrix of pairwise distances (in km) between demand points and warehouse candidates.
+
+------------------------------------------------------------------------
+
+### 3.6 Assumptions and Limitations
+
+Several assumptions were made during data preparation, in line with standard practices in location modeling:
+
+-   In the absence of actual shipment volumes, `Qty` was assumed to be proportional to e-commerce demand.
+-   Latitude and longitude values were used to approximate delivery distances, ignoring actual road or transport network constraints.
+-   District centroids were approximated by averaging the coordinates of associated pincodes.
+-   No information was available on land cost, transportation cost, or budget constraints at this stage; these are incorporated through assumptions in the modeling phase.
+
+------------------------------------------------------------------------
+
+# 4. Analysis
 
 ## Warehouse Location Problem - Basic Formulation
 
