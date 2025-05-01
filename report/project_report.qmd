@@ -64,7 +64,7 @@ Districts were then ranked based on total demand, and the top 20 districts were 
 
 ### 3.4 Distance Matrix Generation Using Haversine Formula
 
-To evaluate delivery cost and time between each demand point and each warehouse candidate, we computed pairwise geographic distances using the Haversine formula:
+To evaluate delivery cost and time between each demand point and each warehouse candidate, we computed pairwise geographic distances(in kilometre) using the Haversine formula:
 
 $$
 Distance_{i,j} = R \cdot 2 \cdot \arctan 2 \left( \sqrt{a}, \sqrt{1 - a} \right)
@@ -119,19 +119,59 @@ Several assumptions were made during data preparation, in line with standard pra
 
 ### Let's define:
 
--   $I=$ Set of potential warehouse locations
--   $J=$ Set of demand points/cities
--   $d_{i,j}=$ Distance/delivery cost from $i$ to $j$
--   $h_j=$ Demand at city $j$
--   $f_i=$ Fixed cost of opening a warehouse at $i$
--   $c_{i,j}=$ cost of serving all demand at city $j$ from warehouse $i$.
+-   $I=$ Set of potential warehouse locations.\
+    (Extracted from **`Warehouse_points.csv)`**
+
+-   $J=$ Set of demand points/cities.\
+    (Extracted from **`Demand_points.csv)`**
+
+-   $d_{i,j}=$ Distance/delivery cost from $i$ to $j$.\
+    (Extracted from **`Distance_Matrix.csv)`**
+
+-   $N =$ Maximum number of warehouses, to be chosen.
+
+-   $n=$ Number of potential warehouses.\
+    (20 assumed here)
+
+-   $h_j=$ Demand at city $j$.\
+    (Extracted from **`Demand_points.csv`** w.r.t "pincode")
+
+-   $F=$ Random list to model the list of prices, of setting up a warehouse at $i^{\text{th}}$ location.\
+    (Generated a random list of values in range ₹20–40 lakh)
+
+-   $B =$ Chosen budget for setting up all the warehouses.\
+    (The budget $B$ was chosen dynamically to reflect a realistic constraint on capital investment. Fixed setup costs for each warehouse were randomly generated between ₹20-40 lakh. The minimum required to build the cheapest 5 was computed, and then the final budget was randomly picked from the range:
+
+    $$       
+    B \in \left[ \sum_{i=1}^5 F_{(i)}, \sum_{i=1}^n F_i \right]
+    $$
+
+    -   $F_{i}$ denotes the fixed cost of setting up warehouse $i$ (corresponding to candidate location $i$).
+    -   $F_{(i)}$ denotes the $i^{\text{th}}$ smallest fixed cost after sorting all $F_{i}$'s in ascending order.
+
+    This ensured feasibility while introducing real-world trade-offs into warehouse selection.)
+
+-   Rate = ₹ 1.775 / km.\
+    To estimate delivery cost per kilometer, we considered an average of fuel efficiencies of commonly used vehicles like bikes and cars. Based on typical mileage values and current fuel prices, the cost was approximated to ₹1.775/km. This serves as a realistic average for modeling delivery expenses in our optimization.
+
+-   $T_{\text{max}} =$ Maximum allowable delivery time per demand point.\
+    (Derived from the distance matrix using the Haversine formula. To ensure practical enforceability, the maximum value in the matrix was reduced by 2000 km to remove extreme long-distance outliers. This adjusted distance was then divided by an assumed average speed of 50 km/h to convert it into hours. Mathematically: $$
+    T_{\text{max}} = \frac{\text{max}(d_{i, j}) - 2000}{\text{Average Speed}} = \frac{d^* - 2000}{50}\
+    $$ where $d^*$ is the maximum Haversine distance observed. This enforces a realistic time-bound service constraint and prevents the model from assigning demand to extremely distant hubs.)
+
 -   $x_i$ ; $x_i \in \{0,1\}$ (1 if warehouse is opened at $i$, 0 otherwise)
+
 -   $y_{i,j}=$ fraction of demand at $j$ served by warehouse $i$.
--   $t_{i, j}=$ time required for delivering from warehouse at i to city at j.
+
+-   $t_{i, j}=$ The travel time between location $i$ and demand point $j$ is given by:
+
+$$t_{i, j} = \frac{d_{i, j}}{\text{Average Speed}}$$ where:- $t_{i,j}$ = travel time (hours) - $d_{i, j}$ = Haversine distance between locations (km) - Average Speed = 50 km/h (assumed constant)
+
+This conversion enables time-based service constraints in the optimization model.
 
 ### Objective: Minimize delivery cost
 
-Minimize : $$ Z=\sum_{i \in I} f_i \cdot x_i + \sum_{i \in I, j \in J} c_{i,j}h_{j}y_{i,j} $$
+Minimize : $$ Z=\sum_{i \in I, j \in J} c_{i,j}h_{j}y_{i,j} +\sum_{i \in I} f_i \cdot x_i  $$
 
 ### Constraints
 
