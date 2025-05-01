@@ -90,7 +90,7 @@ Using this formula:
 
 -   Each cell gives the straight-line distance (in km) between the two
 
-The calculation was implemented in R using a row-wise distance function. The result was saved as Distance_Matrix.csv.
+The calculation was implemented in R using a row-wise distance function. The result was saved as **`Distance_Matrix.csv`**.
 
 ### 3.5 Final Prepared Datasets
 
@@ -115,7 +115,7 @@ Several assumptions were made during data preparation, in line with standard pra
 
 # 4. Analysis
 
-## Warehouse Location Problem - Basic Formulation
+## 4.1 Warehouse Location Problem - Basic Formulation
 
 ### Let's define:
 
@@ -187,3 +187,7 @@ $$ \sum_{i \in I} t_{i,j} \cdot y_{i,j} \leq T_{\max} \space\space \forall\space
 Binary Constraint: $$ x_i \in \{0, 1\} \space\forall\space i \in I$$
 
 Non-negativity constraint: $$ y_{i,j} \geq 0 \space\forall\space i \in I, j \in J$$
+
+## 4.2 Model Implementation & Execution
+
+The model was encoded in Python using **`PuLP`** and solved via the CBC solver. Inputs were read directly from the prepared datasets. Setup costs for candidate warehouses were randomly sampled from a uniform distribution, and a feasible budget was drawn accordingly. Time constraints were imposed by converting Haversine distances to hours using a constant average speed. Post-solution, optimal warehouse activations and fractional demand allocations were extracted and exported for evaluation.
