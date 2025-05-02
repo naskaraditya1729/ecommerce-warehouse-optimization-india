@@ -34,9 +34,53 @@ The optimization model was formulated and solved through the following approach:
 ## Files Description
 
 - `Demand_points.csv`: Pincode-level demand data with geographic coordinates
+  ```
+  pincode district latitude longitude Demand
+  516356   Y.S.R. 14.71833  78.66676      3
+  516356   Y.S.R. 14.77071  78.66351      3
+  516175   Y.S.R. 14.92793  78.62389      1
+  ```
+
 - `Warehouse_points.csv`: Candidate warehouse locations with coordinates
+  ```
+  district       TotalDemand  Latitude        Longitude
+  BENGALURU URBAN  31343     12.9358502891188 77.5818111190038
+  PUNE             15479     18.5898385005948 73.8826938710409
+  THANE            13018     19.2681331497409 72.9476622088083
+  ```
+
 - `Distance_Matrix.csv`: Distances between demand points and warehouse candidates
+  ```
+  pincode district  BENGALURU URBAN  ...  THANE      MUMBAI 
+  516356   Y.S.R.  230.230205       ...  667.028635  790.913207      
+  516356   Y.S.R.  235.081966       ...  662.968110  786.871875      
+  516175   Y.S.R.  248.421315       ...  648.464265  772.398190       
+  ```
+
 - `Warehouse_Fixed_Costs.csv`: Setup costs for each warehouse candidate
+  ```
+  Warehouse         Fixed_Cost
+  BENGALURU URBAN   3676046
+  PUNE              2477628
+  THANE             3697904
+  ```
+
 - `Selected_Warehouses.csv`: Optimal warehouse locations from solution
+  ```
+  Warehouse
+  BENGALURU URBAN
+  MUMBAI SUBURBAN
+  HYDERABAD
+  24 PARAGANAS NORTH
+  SOUTH
+  ```
+  
 - `Demand_Allocations.csv`: Assignment of demand points to warehouses
-- `Map.zip`: Visualization of the optimization solution 
+  ```
+  Pincode,Warehouse,Allocation,Demand,Distance,WeightedCost
+  516356,BENGALURU URBAN,1.0,3,230.230205429288,690.690616287864
+  516175,BENGALURU URBAN,1.0,1,248.421314557407,248.421314557407
+  516434,BENGALURU URBAN,1.0,8,226.053445308177,1808.427562465416
+  ```
+
+- `Map.zip`: Visualization of the optimization solution
