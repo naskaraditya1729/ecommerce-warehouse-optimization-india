@@ -14,6 +14,3 @@ To determine optimal locations for warehouses across India that minimize deliver
 - Data cleaning, descriptive analysis
 - Reproducibility via Git and Quarto
 
-## 🗂️ Project Structure
-
- 
