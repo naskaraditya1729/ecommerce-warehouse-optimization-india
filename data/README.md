@@ -101,4 +101,4 @@ The optimization model was formulated and solved through the following approach:
   +--------+----------------+------------+--------+------------------+---------------+
   ```
 
-- `Map.zip`: Visualization of the optimization solution
+- `Map.zip`: Zip file containing visualization of the optimization solution
