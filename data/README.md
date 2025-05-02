@@ -51,10 +51,10 @@ The optimization model was formulated and solved through the following approach:
 
 - `Distance_Matrix.csv`: Distances between demand points and warehouse candidates
   ```
-  pincode district  BENGALURU URBAN  ...  THANE      MUMBAI 
-  516356   Y.S.R.  230.230205       ...  667.028635  790.913207      
-  516356   Y.S.R.  235.081966       ...  662.968110  786.871875      
-  516175   Y.S.R.  248.421315       ...  648.464265  772.398190       
+  pincode district  BENGALURU URBAN  -------  THANE        MUMBAI 
+  516356   Y.S.R.  230.230205       -------  667.028635   790.913207      
+  516356   Y.S.R.  235.081966       -------  662.968110   786.871875      
+  516175   Y.S.R.  248.421315       -------  648.464265   772.398190       
   ```
 
 - `Warehouse_Fixed_Costs.csv`: Setup costs for each warehouse candidate
