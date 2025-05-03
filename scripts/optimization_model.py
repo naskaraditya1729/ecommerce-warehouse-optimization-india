@@ -106,8 +106,8 @@ def main():
         # 3. Budget constraint
         model += lpSum(x[I[i]] * F[i] for i in range(n)) <= B, "Budget_constraint"
 
-        # 4. Exactly N warehouses must be opened
-        model += lpSum(x[i] for i in I) == max_warehouses, "Max_warehouses"
+        # 4. Maximum N warehouses must be opened
+        model += lpSum(x[i] for i in I) <= max_warehouses, "Max_warehouses"
 
         # 5. Max delivery time constraint for each demand point
         for j in J:
