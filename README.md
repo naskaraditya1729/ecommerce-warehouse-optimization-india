@@ -58,3 +58,13 @@ Develop an optimization model to determine the best locations for warehouses acr
 | `project_report.html/pdf`| Rendered report in HTML or PDF format                        |
 
 ---
+## How to View the Project Files
+
+1. **Download and Extract**  
+   Download the `report.zip` file to your local machine and extract it. This will create a folder named `report`.
+
+2. **View the Interactive Map**  
+   Open the extracted `report` folder and double-click on `warehouse_optimisation_map.html` to view the interactive map plot.
+
+3. **View the Project Report**  
+   To view the original HTML version of the project report, open `project_report.html` in the same directory.
